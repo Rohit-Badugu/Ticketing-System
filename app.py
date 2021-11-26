@@ -16,7 +16,18 @@ class Utils:
             userIDs.add(assignee_id)
         
         return ','.join(str(s) for s in userIDs)
-
+        
+    def getTicketUserIDs(self, ticket, comments):
+        userIDs = set()
+        requester_id = ticket["requester_id"]
+        assignee_id = ticket["assignee_id"]
+        userIDs.add(requester_id)
+        userIDs.add(assignee_id)
+        for comment in comments:
+            userIDs.add(comment["id"])
+            
+        return ','.join(str(s) for s in userIDs)
+        
     def transformDate(self, dateStr):
         dateObj = datetime.strptime(dateStr, "%Y-%m-%dT%H:%M:%SZ")
         return dateObj.strftime("%m/%d/%Y %H:%M")
@@ -54,6 +65,19 @@ class Utils:
             payload["nextActive"] = True
 
         payload["page_no"] = page_no
+        return payload
+
+    def createTicketPayload(self, ticket, comments, users):
+        userMap = {}
+        payload = {}
+        for user in users:
+            userMap[user["id"]] = user["name"]
+        for comment in comments:
+            comment["created_at"] = self.transformDate(comment["created_at"])
+            comment["authorName"] = userMap[comment["author_id"]]
+        
+        payload["comments"] = comments
+        payload["ticket"] = ticket
         return payload
 
 
@@ -154,6 +178,11 @@ class QueryHandler:
     def fetchComments(self, ticket_id):
         api_endpoint = "api/v2/tickets/" + ticket_id + "/comments"
         return self.apiClient.getComments(api_endpoint)
+        
+    def fetchTicketUsers(self, ticket, comments):
+        userIDs = self.utils.getTicketUserIDs(ticket, comments)
+        api_endpoint = "api/v2/users/show_many"
+        return self.apiClient.getUserInfo(api_endpoint, userIDs)
 
 
 
@@ -178,10 +207,15 @@ def index():
 @app.route('/ticket')
 def detail():
     queryHandler = QueryHandler()
+    utils = Utils()
+
     ticket_id = request.args.get("id")
     ticket = queryHandler.fetchTicketInfo(ticket_id)
     comments = queryHandler.fetchComments(ticket_id)
-    return render_template('ticket.html', ticket=ticket, comments=comments)
+    users = queryHandler.fetchTicketUsers(ticket, comments)
+    payload = utils.createTicketPayload(ticket, comments, users)
+
+    return render_template('ticket.html', payload=payload)
 
 
 if __name__ == "__main__":

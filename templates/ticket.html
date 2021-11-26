@@ -16,6 +16,15 @@
       background-color: #f1f1f1;
       height: 100%;
     }
+	
+	pre {
+            overflow-x: auto;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+         }
     
     /* Set black background color, white text and some padding */
     footer {
@@ -35,7 +44,6 @@
   </style>
 </head>
 <body>
-
 <div class="container-fluid">
   <div class="row content"><div class="col-sm-3 sidenav">
     <h4>John's Blog</h4>
@@ -56,28 +64,25 @@
   </div>
 
     <div class="col-sm-9">
-      <hr>
-      <h3>{{ticket["subject"]}}</h3>
-      <h5><span class="glyphicon glyphicon-time"></span> Requested by {{ticket[""]}}, Sep 27, 2015.</h5>
-      <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
-      <p>{{ticket["description"]}}</p>
-      <br><br>
-
+	<div class="float-start"><h3>{{payload["ticket"]["subject"]}}</h3></div>
+	 <div class="float-end"><h5>via {{payload["ticket"]["via"]["channel"]}}</h5></div>
+	  <hr>
+      <h4><span class="label label-info">{{payload["ticket"]["status"]}}</span></h4><br>
       
-      <p><span class="badge">2</span> Comments:</p><br>
+      <p><span class="badge">2</span> Comment(s):</p><br> 
       
-      <div class="row">
-        <div class="col-sm-10">
-          <h4>Anja <small>Sep 29, 2015, 9:12 PM</small></h4>
-          <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <br>
-        </div>
-        <div class="col-sm-10">
-          <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
-          <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <br>
-        </div>
-      </div>
+		{%for comment in payload["comments"]%}
+			<div class="row">
+			<div class="col-sm-1 text-center">
+				<img src="https://zccrbadugu.zendesk.com/system/photos/361248547232/rohit.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+			</div>
+			<div class="col-sm-10">
+				<h4>{{comment["authorName"]}}<small class="float-right">{{comment["created_at"]}}</small></h4>
+				<p><pre>{{comment["body"]}}</pre></p>
+				<br>
+			</div>
+			</div>
+		{%endfor%}
     </div>
   </div>
 </div>
