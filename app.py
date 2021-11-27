@@ -30,7 +30,7 @@ class Utils:
         
     def transformDate(self, dateStr):
         dateObj = datetime.strptime(dateStr, "%Y-%m-%dT%H:%M:%SZ")
-        return dateObj.strftime("%m/%d/%Y %H:%M")
+        return dateObj.strftime("%b %d, %Y %H:%M %p")
 
     def createPayload(self, tickets, users, groups, count, page_no):
         userMap = {}
@@ -71,12 +71,19 @@ class Utils:
         userMap = {}
         payload = {}
         for user in users:
-            userMap[user["id"]] = user["name"]
+            userMap[user["id"]] = {"name": user["name"], "photo_url": user["photo"]["content_url"]}
         for comment in comments:
             comment["created_at"] = self.transformDate(comment["created_at"])
-            comment["authorName"] = userMap[comment["author_id"]]
+            userEntry = userMap[comment["author_id"]]
+            comment["authorName"] = userEntry["name"]
+            comment["photo_url"] = userEntry['photo_url']
+            print(comment["photo_url"])
         
+        ticket["requesterName"] = userMap[ticket["requester_id"]]["name"]
+        ticket["assigneeName"] = userMap[ticket["assignee_id"]]["name"]
+
         payload["comments"] = comments
+        payload["commentCount"] = len(comments)
         payload["ticket"] = ticket
         return payload
 
@@ -210,6 +217,9 @@ def detail():
     utils = Utils()
 
     ticket_id = request.args.get("id")
+    if ticket_id == None or ticket_id == "":
+        return render_template('404.html'), 404
+
     ticket = queryHandler.fetchTicketInfo(ticket_id)
     comments = queryHandler.fetchComments(ticket_id)
     users = queryHandler.fetchTicketUsers(ticket, comments)
@@ -217,6 +227,10 @@ def detail():
 
     return render_template('ticket.html', payload=payload)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
 
 if __name__ == "__main__":
     app.run()

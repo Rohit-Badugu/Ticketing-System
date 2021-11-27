@@ -46,41 +46,52 @@
 <body>
 <div class="container-fluid">
   <div class="row content"><div class="col-sm-3 sidenav">
-    <h4>John's Blog</h4>
-    <ul class="nav nav-pills nav-stacked">
-      <li class="active"><a href="#section1">Home</a></li>
-      <li><a href="#section2">Friends</a></li>
-      <li><a href="#section3">Family</a></li>
-      <li><a href="#section3">Photos</a></li>
-    </ul><br>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search Blog..">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
-          <span class="glyphicon glyphicon-search"></span>
-        </button>
-      </span>
-    </div>
+    <br><br>
+    <form>
+      <div class="form-group">
+        <label style="font-size: large;">Ticket #{{payload["ticket"]["id"]}}&nbsp;&nbsp;<span class="label label-info">{{payload["ticket"]["status"]}}</span></label>
+        <hr style="height: 1px;background-color: rgb(236, 230, 230);border: none;">
+      </div>
+      <br> 
+      <div class="form-group">
+        <label for="requesterName">Requester</label>
+        <input type="text" class="form-control" id="requesterName" aria-describedby="emailHelp" value="{{payload['ticket']['requesterName']}}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="assigneeName">Assignee</label>
+        <input type="text" class="form-control" id="assigneeName" value="{{payload['ticket']['assigneeName']}}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="tags">Tags</label>
+        <br>
+        {%for tag in payload["ticket"]["tags"]%}
+          <span class="badge badge-primary">{{tag}}</span>
+        {%endfor%}
+      </div>
+    </form>
   </div>
 
     <div class="col-sm-9">
 	<div class="float-start"><h3>{{payload["ticket"]["subject"]}}</h3></div>
 	 <div class="float-end"><h5>via {{payload["ticket"]["via"]["channel"]}}</h5></div>
-	  <hr>
-      <h4><span class="label label-info">{{payload["ticket"]["status"]}}</span></h4><br>
+	  <hr style="height: 1px;background-color: rgb(245, 241, 241);border: none;">
+    
       
-      <p><span class="badge">2</span> Comment(s):</p><br> 
-      
+      {%if payload["commentCount"] > 1 %}
+        <p><span class="badge">{{payload["commentCount"]}}</span> Comments:</p><br>
+      {%else%}
+        <p><span class="badge">{{payload["commentCount"]}}</span> Comment:</p><br> 
+      {%endif%}
 		{%for comment in payload["comments"]%}
 			<div class="row">
-			<div class="col-sm-1 text-center">
-				<img src="https://zccrbadugu.zendesk.com/system/photos/361248547232/rohit.jpg" class="img-circle" height="65" width="65" alt="Avatar">
-			</div>
-			<div class="col-sm-10">
-				<h4>{{comment["authorName"]}}<small class="float-right">{{comment["created_at"]}}</small></h4>
-				<p><pre>{{comment["body"]}}</pre></p>
-				<br>
-			</div>
+        <div class="col-sm-1 text-center">
+          <img src="{{comment['photo_url']}}" class="img-circle" height="65" width="65" alt="Avatar">
+        </div>
+        <div class="col-sm-10">
+          <h4>{{comment["authorName"]}}&nbsp;&nbsp;<small class="float-right">{{comment["created_at"]}}</small></h4>
+          <p><pre>{{comment["body"]}}</pre></p>
+          <br>
+        </div>
 			</div>
 		{%endfor%}
     </div>
