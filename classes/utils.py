@@ -1,6 +1,8 @@
 import math
 from datetime import datetime
-num_tickets_in_page=25
+from config import Config
+
+num_tickets_in_page=Config.num_tickets_in_page
 
 class Utils:
     def getUserIDs(self, tickets):
