@@ -53,15 +53,15 @@
 						<tr>
 							<td>{{ticket["id"] }}</td>
 							<td>{{ticket["raw_subject"]}}</td>
-							<td>{{ticket["requester"]}}</td>
+							<td>{{ticket["requesterName"]}}</td>
 							<td>{{ticket["updated_at"]}}</td>
 							{%if ticket["status"] == "open" %}
 							<td><span class="status text-danger">{{ticket["status"]}}</td>
 							{%else%}
 							<td><span class="status text-info">{{ticket["status"]}}</td>
 							{%endif%}
-							<td>{{ticket["group"]}}</td>
-							<td>{{ticket["assignee"]}}</td>
+							<td>{{ticket["groupName"]}}</td>
+							<td>{{ticket["assigneeName"]}}</td>
 							<td><a href="/ticket?id={{ticket['id']}}" class="view" title="View Details"
 									data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
 						</tr>

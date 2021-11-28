@@ -1,33 +1,34 @@
 from classes.client import ApiClient
 from classes.utils import Utils
+from config import Config
 
 class QueryHandler:
     def __init__(self):
         self.apiClient = ApiClient.getInstance()
         self.utils = Utils()
+        self.config = Config()
 
+    #Fetches multiples tickets using offset pagination.
     def fetchTickets(self, page_no):
-        api_endpoint = "/api/v2/tickets"
-        return self.apiClient.getTickets(api_endpoint, page_no)
+        return self.apiClient.getTickets(self.config.api_tickets, page_no)
 
-    def fetchTicketInfo(self, ticket_id):
-        api_endpoint = "/api/v2/tickets/" + ticket_id
-        return self.apiClient.getTicketInfo(api_endpoint)
+    #Fetches single ticket
+    def fetchSingleTicket(self, ticket_id):
+        return self.apiClient.getSingleTicket(self.config.api_single_ticket.format(ticket_id))
 
-    def fetchUserInfo(self, tickets):
+    #Fetches multiple users by passing comma seperated userIDs in url params
+    def fetchMultipleUsers(self, tickets):
         userIDs = self.utils.getUserIDs(tickets)
-        api_endpoint = "api/v2/users/show_many"
-        return self.apiClient.getUserInfo(api_endpoint, userIDs)
+        return self.apiClient.getMultipleUsers(self.config.api_multiple_users, userIDs)
 
+    #Fetches all the groups in the system
     def fetchGroups(self): 
-        api_endpoint = "api/v2/groups"
-        return self.apiClient.getGroups(api_endpoint)
+        return self.apiClient.getGroups(self.config.api_groups)
 
+    #Fetches the comments for a specific ticket
     def fetchComments(self, ticket_id):
-        api_endpoint = "api/v2/tickets/" + ticket_id + "/comments"
-        return self.apiClient.getComments(api_endpoint)
+        return self.apiClient.getComments(self.config.api_comments.format(ticket_id))
         
     def fetchTicketUsers(self, ticket, comments):
         userIDs = self.utils.getTicketUserIDs(ticket, comments)
-        api_endpoint = "api/v2/users/show_many"
-        return self.apiClient.getUserInfo(api_endpoint, userIDs)
+        return self.apiClient.getMultipleUsers(self.config.api_multiple_users, userIDs)

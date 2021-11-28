@@ -40,3 +40,16 @@ def test_404_error_page():
 
     response = test_client.get('/error')
     assert response.status_code == 404
+
+def test_505_error_page():
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/ticket?id=incorrect value' is requested (GET)
+    THEN check that the status is 500
+    """
+    app = Flask(__name__, template_folder='../../templates')
+    configure_routes(app)
+    test_client = app.test_client()
+
+    response = test_client.get('/ticket?id="incorrect_id')
+    assert response.status_code == 500
