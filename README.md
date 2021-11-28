@@ -27,7 +27,7 @@ Get started by cloning the project to your local machine:
 $ https://github.com/Rohit-Badugu/Ticketing-System.git
 ```
 
-## Installation
+### Installation
 ```requirements.txt``` file contains a list of all dependencies. 
 1. Install `pip` following the documentation. Link to documentation - https://pip.pypa.io/en/stable/cli/pip_install/
 2. Install all the dependencies using pip. Run the below command
