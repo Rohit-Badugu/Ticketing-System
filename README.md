@@ -28,33 +28,35 @@ $ https://github.com/Rohit-Badugu/Ticketing-System.git
 ```
 
 ### Installation
-```requirements.txt``` file contains a list of all dependencies. 
-1. Install `pip` following the documentation. Link to documentation - https://pip.pypa.io/en/stable/cli/pip_install/
-2. Install all the dependencies using pip. Run the below command
+```requirements.txt``` file contains a list of all the dependencies. 
+1. Install `Python3` using the [documentation](https://www.python.org/downloads/). Set the environmenet variables to Python path.
+2. Install `pip` tool using the [documentation](https://pip.pypa.io/en/stable/installation/).
+3. Install all the dependencies using `pip`. Run the below command
 ```
 $ pip install -r requirements.txt
 ```
 
+### Usage
+#### Configuration
+In `config.py` on line 6, enter the Base64 encoded API KEY value
 
+#### Running the server
+1. Navigate to repository directory in the terminal. Run the `run.py` python file using below command
+```
+$ python run.py
+```
+2. Once the server has started, you can view the localhost URL. The applciation will start on default URL - `http://127.0.0.1:5000/`
+3. Open the above URL in a browser to view the application.
 
-## Usage
-Application is currently built to work with Android API 23(Marshmallow). 
+#### Running the tests
+1. Python `unittest` module is used for writing the unit tests. Unit tests are placed under directory - `tests/unit`.
+2. Python `pytest` module is used for writing the functional tests. Functional tests are placed under directory - `tests/functional`.
+3. To start the tests, run the below command in the project repository.
+```
+$ python -m pytest
+```
 
-
-
-## License
-
-    Copyright [yyyy] [name of copyright owner]
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+## Functionality :rocket:
+### Pagination
+### Error Handling
 
