@@ -2,8 +2,9 @@ class Config(object):
     DEBUG = False
     TESTING = False
 
-    #Base 64 encoded API KEY
-    API_KEY = "Basic cmJhZHVndUBhc3UuZWR1L3Rva2VuOmRIR1YzbHYxbzRlSHlGNnJtR2NmZVF0UmNxaXJxZDN4MXhDWGtHMU0="
+    #Base64 encoded API KEY
+    API_KEY = "cmJhZHVndUBhc3UuZWR1L3Rva2VuOmRIR1YzbHYxbzRlSHlGNnJtR2NmZVF0UmNxaXJxZDN4MXhDWGtHMU0="    #Add Base64 encode API KEY here
+    AUTH_TOKEN = "Basic " + API_KEY
     
     #Specifies how many tickets must be shown in a page
     num_tickets_in_page = 25

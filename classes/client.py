@@ -25,7 +25,7 @@ class ApiClient:
     #Authorization header contains the API KEY
     def getHeaders(self):
         headers = {}
-        headers["Authorization"] = Config.API_KEY
+        headers["Authorization"] = Config.AUTH_TOKEN
         headers["Content-type"] = "application/json"
 
         return headers

@@ -8,6 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/ticket.css')}}"/>
+  <link name="favicon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico')}}" rel="shortcut icon" />
 </head>
 <body>
 <div class="container-fluid">
@@ -15,8 +16,15 @@
     <br><br>
     <form>
       <div class="form-group">
-        <label style="font-size: large;">Ticket #{{payload["ticket"]["id"]}}&nbsp;&nbsp;<span class="label label-info">{{payload["ticket"]["status"]}}</span></label>
-        <hr style="height: 1px;background-color: rgb(236, 230, 230);border: none;">
+        <label class="label-title">Ticket #{{payload["ticket"]["id"]}}&nbsp;&nbsp;
+          {%if payload["ticket"]["status"] == "Open" %}
+            <span class="label label-danger">{{payload["ticket"]["status"]}}</span>
+					{%else%}
+            <span class="label label-info">{{payload["ticket"]["status"]}}</span>
+					{%endif%}
+          
+        </label>
+        <hr style="height: 1px;background-color: rgb(233, 227, 227);border: none;">
       </div>
       <br> 
       <div class="form-group">
@@ -28,7 +36,7 @@
         <input type="text" class="form-control" id="assigneeName" value="{{payload['ticket']['assigneeName']}}" readonly>
       </div>
       <div class="form-group">
-        <label for="tags">Tags</label>
+        <label class="tags">Tags</label>
         <br>
         {%for tag in payload["ticket"]["tags"]%}
           <span class="badge badge-primary">{{tag}}</span>

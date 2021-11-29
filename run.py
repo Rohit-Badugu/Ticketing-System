@@ -10,6 +10,6 @@ app.config.from_object("config.TestingConfig")
 #Load the app routes
 configure_routes(app)
 
-#Start the app
+#Start the app on default port: 5000
 if __name__ == "__main__":
     app.run()

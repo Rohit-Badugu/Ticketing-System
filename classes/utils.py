@@ -35,6 +35,11 @@ class Utils:
         dateObj = datetime.strptime(dateStr, "%Y-%m-%dT%H:%M:%SZ")
         return dateObj.strftime("%b %d, %Y %H:%M %p")
 
+    def capitalize(self, str):
+        if str is None:
+            return "None"
+        return str.capitalize()
+
     #Parsing tickets, users, group objects to create a single payload to send to UI
     def createPayload(self, tickets, users, groups, count, page_no):
         userMap = {}
@@ -55,6 +60,10 @@ class Utils:
             ticket["requesterName"] = userMap[ticket["requester_id"]]
             ticket["assigneeName"] = userMap[ticket["assignee_id"]]
             ticket["groupName"] = groupMap[ticket["group_id"]]
+
+            #Function is created since the value of status/priority can be None
+            ticket["status"] = self.capitalize(ticket["status"])
+            ticket["priority"] = self.capitalize(ticket["priority"])
         
         pageCount = len(tickets)
         offset = (page_no-1)*num_tickets_in_page
@@ -95,6 +104,8 @@ class Utils:
         #Adding names to ticket
         ticket["requesterName"] = userMap[ticket["requester_id"]]["name"]
         ticket["assigneeName"] = userMap[ticket["assignee_id"]]["name"]
+        statusStr = ticket["status"]
+        ticket["status"] = self.capitalize(statusStr)
 
         payload["comments"] = comments
         payload["commentCount"] = len(comments)

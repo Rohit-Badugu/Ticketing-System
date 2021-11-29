@@ -1,10 +1,22 @@
 /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .row.content {height: 1500px}
     
 /* Set gray background color and 100% height */
 .sidenav {
   background-color: #f1f1f1;
   height: 100%;
+}
+
+.label-title {
+  font-size: 19px;
+}
+
+.tags {
+  font-size: 16px;
 }
 
 pre {
