@@ -15,7 +15,7 @@ Here's a walkthrough of implemented user stories:
 
 <img src='walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-GIF created with [GIF Maker, GIF Editor](https://play.google.com/store/apps/details?id=com.media.zatashima.studio&hl=en_US&gl=US).
+GIF created with [Snagit GIF Maker](https://www.techsmith.com/learn/tutorials/snagit/animated-gif/).
 
 ## Getting Started 💻
 
@@ -58,5 +58,15 @@ $ python -m pytest
 
 ## Functionality :rocket:
 ### Pagination
+1. The variable `num_tickets_in_page` in `config.py` determines the maximum number of tickets which will be displayed in a page. The default is set to `25`.
+2. Zendesk `Offset Pagination` functionality is used for paginating through tickets. The parameters `page` and `per_page` are passed to get the tickets for a particular page.
+
 ### Error Handling
+1. The application returns HTTP 505: Internal Server Error page in scenario where the Zendesk API endpoint, Authorization issues or program errors. 
+2. The application returns HTTP 404: Page Not Found page in scenario where user enters incorrect url in the address bar. 
+
+### Test coverage
+Test coverage report is generated using `pytest-cov` library. Link to documentation - 
+The unit and functional tests cover `96%` of code. Below is the code coverage summary. <br /><br />
+<img src='tests/test_coverage_report.png' title='Test Coverage Report' width='' alt='Test Coverage Report' />
 
